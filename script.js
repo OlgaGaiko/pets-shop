@@ -84,3 +84,57 @@ const items = [
     img: "./img/12.jpeg",
   },
 ];
+
+const itemsContainer = document.getElementById('shop-items');
+const template = document.getElementById('item-template');
+const searchBtn = document.getElementById('search-btn');
+const searchInput = document.getElementById('search-input');
+const nothingFoundMessage = document.getElementById('nothing-found');
+
+items.forEach(item => {
+  const clone = document.importNode(template.content, true);
+  
+  clone.querySelector('img').src = item.img;
+  clone.querySelector('h1').textContent = item.title;
+  clone.querySelector('p').textContent = item.description;
+  clone.querySelector('.price').textContent = `${item.price} руб.`;
+
+  const tagsDiv = clone.querySelector('.tags');
+  item.tags.forEach(tag => {
+    const tagSpan = document.createElement('span');
+    tagSpan.textContent = tag;
+    tagsDiv.appendChild(tagSpan);
+  });
+
+  itemsContainer.appendChild(clone);
+});
+
+searchBtn.addEventListener('click', () => {
+    const searchTerm = searchInput.value.trim().toLowerCase();
+    const filteredItems = items.filter(item => item.title.toLowerCase().includes(searchTerm));
+
+    itemsContainer.innerHTML = '';
+
+    if (filteredItems.length > 0) {
+        filteredItems.forEach(item => {
+            const clone = document.importNode(template.content, true);
+            
+            clone.querySelector('img').src = item.img;
+            clone.querySelector('h1').textContent = item.title;
+            clone.querySelector('p').textContent = item.description;
+            clone.querySelector('.price').textContent = `${item.price} руб.`;
+
+            const tagsDiv = clone.querySelector('.tags');
+            item.tags.forEach(tag => {
+                const tagSpan = document.createElement('span');
+                tagSpan.textContent = tag;
+                tagsDiv.appendChild(tagSpan);
+            });
+
+            itemsContainer.appendChild(clone);
+        });
+        nothingFoundMessage.textContent = '';
+    } else {
+        nothingFoundMessage.textContent = 'Ничего не найдено';
+    }
+});
