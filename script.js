@@ -91,7 +91,7 @@ const searchBtn = document.getElementById('search-btn');
 const searchInput = document.getElementById('search-input');
 const nothingFoundMessage = document.getElementById('nothing-found');
 
-items.forEach(item => {
+function createItemCard(item) {
   const clone = document.importNode(template.content, true);
   
   clone.querySelector('img').src = item.img;
@@ -103,11 +103,12 @@ items.forEach(item => {
   item.tags.forEach(tag => {
     const tagSpan = document.createElement('span');
     tagSpan.textContent = tag;
+    tagSpan.classList.add('tag');
     tagsDiv.appendChild(tagSpan);
   });
 
-  itemsContainer.appendChild(clone);
-});
+  return clone
+};
 
 searchBtn.addEventListener('click', () => {
     const searchTerm = searchInput.value.trim().toLowerCase();
@@ -116,22 +117,9 @@ searchBtn.addEventListener('click', () => {
     itemsContainer.innerHTML = '';
 
     if (filteredItems.length > 0) {
-        filteredItems.forEach(item => {
-            const clone = document.importNode(template.content, true);
-            
-            clone.querySelector('img').src = item.img;
-            clone.querySelector('h1').textContent = item.title;
-            clone.querySelector('p').textContent = item.description;
-            clone.querySelector('.price').textContent = `${item.price} руб.`;
-
-            const tagsDiv = clone.querySelector('.tags');
-            item.tags.forEach(tag => {
-                const tagSpan = document.createElement('span');
-                tagSpan.textContent = tag;
-                tagsDiv.appendChild(tagSpan);
-            });
-
-            itemsContainer.appendChild(clone);
+      filteredItems.forEach(item => {
+          const card = createItemCard(item);
+          shopItemsContainer.appendChild(card);
         });
         nothingFoundMessage.textContent = '';
     } else {
