@@ -117,19 +117,21 @@ function renderItems(items) {
   })}
   renderItems(items)
 
-searchBtn.addEventListener('click', () => {
+  searchInput.value = ''; 
+
+  searchBtn.addEventListener('click', () => {
     const searchTerm = searchInput.value.trim().toLowerCase();
     const filteredItems = items.filter(item => item.title.toLowerCase().includes(searchTerm));
-
+  
     itemsContainer.innerHTML = '';
-
+  
     if (filteredItems.length > 0) {
       filteredItems.forEach(item => {
-          const card = createItemCard(item);
-          shopItemsContainer.appendChild(card);
-        });
-        nothingFoundMessage.textContent = '';
+        const card = createItemCard(item);
+        itemsContainer.appendChild(card);
+      });
+      nothingFoundMessage.textContent = '';
     } else {
-        nothingFoundMessage.textContent = 'Ничего не найдено';
+      nothingFoundMessage.textContent = 'Ничего не найдено';
     }
-});
+  });
