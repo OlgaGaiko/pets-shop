@@ -110,6 +110,13 @@ function createItemCard(item) {
   return clone
 };
 
+function renderItems(items) {
+  items.forEach(item => {
+  const card = createItemCard(item);
+  itemsContainer .append(card);
+  })}
+  renderItems(items)
+
 searchBtn.addEventListener('click', () => {
     const searchTerm = searchInput.value.trim().toLowerCase();
     const filteredItems = items.filter(item => item.title.toLowerCase().includes(searchTerm));
